@@ -1,8 +1,6 @@
-type Variable = String
+module Main (main) where
 
-data Expression = Reference Variable
-                | Lambda Variable Expression
-                | Combination Expression Expression 
+import Direct (Expression(..), Variable)
 
 type Kvariable = String
 
@@ -38,6 +36,10 @@ cpsTransform (Lambda p b) k = Invocation k $ Procedure p
                                              "k" $
                                 cpsTransform b $ Kreference "k"
 cpsTransform (Combination a b) k = cpsTransform  a $ Continuation "k" $ cpsTransform b k
+
+{- check allowed to have a combination in the function position
+   of a combination. seem to be producing it.
+-}
 
 main :: IO ()
 main = print $ cpsTransform (Combination
