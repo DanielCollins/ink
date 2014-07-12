@@ -19,7 +19,7 @@ data Katom = Continuation Variable Call
            | Absorb
 
 instance Show Katom where
-  show (Continuation p b) = "(CONTINUATION " ++ show p ++
+  show (Continuation p b) = "(CONTINUATION " ++ p ++
     " " ++ show b ++ ")"
   show (Kreference v) = v
   show Absorb = "ABSORB"
