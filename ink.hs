@@ -40,5 +40,8 @@ cpsTransform (Lambda p b) k = Invocation k $ Procedure p
 cpsTransform (Combination a b) k = cpsTransform  a $ Continuation "k" $ cpsTransform b k
 
 main :: IO ()
-main = print $ cpsTransform (Reference "a") Absorb
+main = print $ cpsTransform (Combination
+   (Lambda "x" (Reference "x"))
+   (Lambda "x" (Reference "x")))
+   Absorb
 
