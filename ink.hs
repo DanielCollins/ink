@@ -12,6 +12,7 @@ data Uatom = Procedure Variable Kvariable Call
 
 data Katom = Continuation Variable Call
            | Kreference Variable
+           | Absorb
   deriving (Show)
 
 data Call = Application Uatom Uatom Katom
@@ -26,5 +27,5 @@ cpsTransform (Lambda p b) k = Invocation k $ Procedure p
 cpsTransform (Combination a b) k = cpsTransform  a $ Continuation "k" $ cpsTransform b k
 
 main :: IO ()
-main = print $ cpsTransform (Reference "a") $ Kreference "halt" 
+main = print $ cpsTransform (Reference "a") $ Absorb
 
