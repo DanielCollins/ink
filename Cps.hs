@@ -20,8 +20,8 @@ instance Show Uatom where
      ") " ++ show b ++ ")"
 
 instance Show Katom where
-  show (Continuation p b) = "(CONTINUATION " ++ p ++
-    " " ++ show b ++ ")"
+  show (Continuation p b) = "(LAMBDA (" ++ p ++
+    ") " ++ show b ++ ")"
   show (Kreference v) = v
   show Absorb = "ABSORB"
 
