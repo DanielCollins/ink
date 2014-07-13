@@ -35,6 +35,6 @@ cpsTransform (Reference r) k = Invocation k $ Ureference r
 cpsTransform (Lambda p b) k = Invocation k $ Procedure p
                                              "k" $
                                 cpsTransform b $ Kreference "k"
-cpsTransform (Combination a b) k = cpsTransform  a $ Continuation "k" $ cpsTransform b k
+cpsTransform (Combination a b) k = cpsTransform  a $ Continuation "v" $ cpsTransform b k
 
 
