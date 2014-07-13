@@ -7,23 +7,23 @@ type Kvariable = String
 data Uatom = Procedure Variable Kvariable Call
            | Ureference Variable
 
+data Katom = Continuation Variable Call
+           | Kreference Variable
+           | Absorb
+
+data Call = Application Uatom Uatom Katom
+          | Invocation Katom Uatom
+
 instance Show Uatom where
   show (Ureference r) = r
   show (Procedure p k b) = "(LAMBDA (" ++ p ++ " " ++ k ++
      ") " ++ show b ++ ")"
-
-data Katom = Continuation Variable Call
-           | Kreference Variable
-           | Absorb
 
 instance Show Katom where
   show (Continuation p b) = "(CONTINUATION " ++ p ++
     " " ++ show b ++ ")"
   show (Kreference v) = v
   show Absorb = "ABSORB"
-
-data Call = Application Uatom Uatom Katom
-          | Invocation Katom Uatom
 
 instance Show Call where
   show (Application p a k) = "(" ++ show p ++ " " ++ show a ++
