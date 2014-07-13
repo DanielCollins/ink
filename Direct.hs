@@ -8,7 +8,7 @@ data Expression = Reference Variable
 
 instance Show Expression where
   show (Reference v) = v
-  show (Lambda v b) = "(LAMBDA (" ++ v ++ ") " ++ show b ++ ")"
+  show (Lambda v b) = "(λ (" ++ v ++ ") " ++ show b ++ ")"
   show (Combination a b) = "(" ++ show a ++ " " ++
     show b ++ ")" 
 

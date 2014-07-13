@@ -16,11 +16,11 @@ data Call = Application Uatom Uatom Katom
 
 instance Show Uatom where
   show (Ureference r) = r
-  show (Procedure p k b) = "(LAMBDA (" ++ p ++ " " ++ k ++
+  show (Procedure p k b) = "(λ (" ++ p ++ " " ++ k ++
      ") " ++ show b ++ ")"
 
 instance Show Katom where
-  show (Continuation p b) = "(LAMBDA (" ++ p ++
+  show (Continuation p b) = "(λ (" ++ p ++
     ") " ++ show b ++ ")"
   show (Kreference v) = v
   show Absorb = "ABSORB"
