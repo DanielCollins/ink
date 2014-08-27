@@ -1,4 +1,4 @@
-module Cps (cpsTransform, Katom(Absorb)) where
+module Cps (cpsTransform, cpsInvoke, Katom(Absorb)) where
 
 import Direct (Expression(..), Variable)
 
@@ -30,11 +30,25 @@ instance Show Call where
      " " ++ show k ++ ")"
   show (Invocation k a) = "(" ++ show k ++ " " ++ show a ++ ")"
 
-cpsTransform :: Expression -> Katom -> Call
-cpsTransform (Reference r) k = Invocation k $ Ureference r
-cpsTransform (Lambda p b) k = Invocation k $ Procedure p
-                                             "k" $
-                                cpsTransform b $ Kreference "k"
-cpsTransform (Combination a b) k = cpsTransform  a $ Continuation "v" $ cpsTransform b k
+cpsInvoke :: Expression -> Katom -> Call
+cpsInvoke (Combination (Combination a b) c) k =
+  cpsInvoke (Combination a b) $
+            Continuation "p" $
+                        cpsInvoke c $
+                                  Continuation "a" $
+                                               Application (Ureference "p")
+                                                           (Ureference "a")
+                                                            k
+cpsInvoke (Combination a (Combination b c)) k =
+  cpsInvoke (Combination b c) $
+            Continuation "v" $
+                         Application (cpsTransform a) (Ureference "v") k
+cpsInvoke (Combination a b) k = Application (cpsTransform a) (cpsTransform b) k
+cpsInvoke e k = Invocation k (cpsTransform e)
 
+cpsTransform :: Expression -> Uatom
+cpsTransform (Reference r) = Ureference r
+cpsTransform (Lambda p b) = Procedure p "k" $ cpsInvoke b $ Kreference "k"
+cpsTransform (Combination a b) = Procedure "v" "k" $ cpsInvoke (Combination a b)
+                                                               (Kreference "k")
 

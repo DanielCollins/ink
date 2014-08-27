@@ -14,5 +14,5 @@ cabal-version:       >=1.8
 executable ink
   main-is:           Main.hs            
   other-modules:     Cps, Direct       
-  build-depends:     base ==4.6.*
+  build-depends:     base
 
